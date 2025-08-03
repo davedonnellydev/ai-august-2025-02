@@ -1,11 +1,11 @@
-# Project [00] #AIAugustAppADay: [Project name]
+# Project 02 #AIAugustAppADay: Image Caption Generator
 
-![Last Commit](https://img.shields.io/github/last-commit/davedonnellydev/nextjs-typescript-mantine-starter)  
+![Last Commit](https://img.shields.io/github/last-commit/davedonnellydev/ai-august-2025-02)  
 
-**📆 Date**: *[Project build date here]*  
-**🎯 Project Objective**: *[Write up any project objectives here]*   
-**🚀 Features**: *[Main features for MVP]*  
-**🛠️ Tech used**: *[Main tech used, including links to libraries/APIs]*  
+**📆 Date**: 01/Aug/2025  
+**🎯 Project Objective**: Build an app that allows users to upload an image or enter a URL of an image, and get an AI-generated caption.   
+**🚀 Features**: Allow user to upload an image or an image URL; Have the image displayed, with a copyable caption underneath it.  
+**🛠️ Tech used**: Next.js, TypeScript, OpenAI API  
 **▶️ Live Demo**: *[https://your-demo-url.com](https://your-demo-url.com)*  
 *(Link will be added after deployment)*  
 
@@ -24,14 +24,14 @@ This project has been built as part of my AI August App-A-Day Challenge. You can
 
 ## 🧪 Testing
 
-![CI](https://github.com/davedonnellydev/nextjs-typescript-mantine-starter/actions/workflows/npm_test.yml/badge.svg) *[Link should be amended so that correct repo is specified]*  
+![CI](https://github.com/davedonnellydev/ai-august-2025-02/actions/workflows/npm_test.yml/badge.svg) *[Link should be amended so that correct repo is specified]*  
 *Note: Test suite runs automatically with each push/merge.*  
 
 ## Quick Start
 
 1. **Clone and install:**
    ```bash
-   git clone https://github.com/davedonnellydev/nextjs-typescript-mantine-starter.git
+   git clone https://github.com/davedonnellydev/ai-august-2025-02.git
    cd nextjs-typescript-mantine-starter
    npm install
    ```
@@ -113,5 +113,5 @@ import { Component } from '@/components/Component';  // instead of '../../../com
 
 
 ## 📜 License
-![GitHub License](https://img.shields.io/github/license/davedonnellydev/nextjs-typescript-mantine-starter)  
+![GitHub License](https://img.shields.io/github/license/davedonnellydev/ai-august-2025-02)  
 This project is licensed under the MIT License.  
