@@ -2,7 +2,7 @@
 
 ![Last Commit](https://img.shields.io/github/last-commit/davedonnellydev/ai-august-2025-02)  
 
-**📆 Date**: 01/Aug/2025  
+**📆 Date**: 04/Aug/2025  
 **🎯 Project Objective**: Build an app that allows users to upload an image or enter a URL of an image, and get an AI-generated caption.   
 **🚀 Features**: Allow user to upload an image or an image URL; Have the image displayed, with a copyable caption underneath it.  
 **🛠️ Tech used**: Next.js, TypeScript, OpenAI API  
