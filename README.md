@@ -6,8 +6,7 @@
 **🎯 Project Objective**: Build an app that allows users to upload an image or enter a URL of an image, and get an AI-generated caption.   
 **🚀 Features**: Allow user to upload an image or an image URL; Have the image displayed, with a copyable caption underneath it. Stretch goals: either 3-4 selections of different tones/focuses for the caption, AND/OR the user can input a sentance or two of their own to help shape the description.  
 **🛠️ Tech used**: Next.js, TypeScript, OpenAI API  
-**▶️ Live Demo**: *[https://your-demo-url.com](https://your-demo-url.com)*  
-*(Link will be added after deployment)*  
+**▶️ Live Demo**: [https://dave-donnelly-ai-august-02.netlify.app/](https://dave-donnelly-ai-august-02.netlify.app/)   
 
 ## 🗒️ Summary
 **Lessons learned**  
