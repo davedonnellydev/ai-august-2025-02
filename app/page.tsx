@@ -1,9 +1,9 @@
-import { Welcome } from '../components/Welcome/Welcome';
+import { ImageCaptionGenerator } from '../components/ImageCaptionGenerator/ImageCaptionGenerator';
 
 export default function HomePage() {
   return (
     <>
-      <Welcome />
+      <ImageCaptionGenerator />
     </>
   );
 }

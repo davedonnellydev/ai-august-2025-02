@@ -5,8 +5,8 @@ import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/c
 import { theme } from '../theme';
 
 export const metadata = {
-  title: 'Next.js TypeScript Mantine template',
-  description: 'A starter repo for AIAugust App a Day Challenge',
+  title: 'Image Caption Generator',
+  description: 'An image caption generator app built for AIAugust App a Day Challenge',
 };
 
 export default function RootLayout({ children }: { children: any }) {

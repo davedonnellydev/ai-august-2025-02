@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { Button, Text, TextInput, Title } from '@mantine/core';
 import { ClientRateLimiter } from '@/app/lib/utils/api-helpers';
-import classes from './Welcome.module.css';
+import classes from './ImageCaptionGenerator.module.css';
 
-export function Welcome() {
+export function ImageCaptionGenerator() {
   const [input, setInput] = useState('');
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -72,10 +72,10 @@ export function Welcome() {
   return (
     <>
       <Title className={classes.title} ta="center" mt={100}>
-        Welcome to your{' '}
+        Image{' '}
         <Text inherit variant="gradient" component="span" gradient={{ from: 'pink', to: 'yellow' }}>
-          Starter
-        </Text>
+          Caption
+        </Text>{' '}Generator
       </Title>
 
       <div style={{ maxWidth: 600, margin: '20px auto', padding: '20px' }}>
@@ -109,7 +109,7 @@ export function Welcome() {
       </div>
 
       <Text c="dimmed" ta="center" size="sm" maw={580} mx="auto" mt="xl">
-        You have {remainingRequests} questions remaining.
+        You have {remainingRequests} image caption generations remaining.
       </Text>
     </>
   );
