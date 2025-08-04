@@ -255,4 +255,18 @@ export class ClientRateLimiter {
 
     return Math.max(0, MAX_REQUESTS - validRequests.length);
   }
+
+  static incrementRequest(): void {
+    const now = Date.now();
+    const requests = JSON.parse(localStorage.getItem('translation_requests') || '[]');
+
+    // Remove old requests outside the window
+    const validRequests = requests.filter(
+      (timestamp: number) => now - timestamp < STORAGE_WINDOW_MS
+    );
+
+    // Add current request
+    validRequests.push(now);
+    localStorage.setItem('translation_requests', JSON.stringify(validRequests));
+  }
 }

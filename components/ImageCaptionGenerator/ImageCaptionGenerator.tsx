@@ -1,24 +1,23 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { IconPhoto, IconUpload, IconX } from '@tabler/icons-react';
 import {
+  Box,
   Button,
+  Center,
+  Chip,
+  Divider,
+  FileInput,
+  Group,
+  Image,
+  Paper,
+  Slider,
+  Stack,
   Text,
   TextInput,
   Title,
-  Slider,
-  Chip,
-  Group,
-  Stack,
-  Paper,
-  Image,
-  FileInput,
-  Divider,
-  Box,
-  Center,
-  rem,
 } from '@mantine/core';
-import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import { ClientRateLimiter } from '@/app/lib/utils/api-helpers';
 import classes from './ImageCaptionGenerator.module.css';
 
@@ -75,7 +74,7 @@ export function ImageCaptionGenerator() {
     setSelectedTone(value as Tone[]);
   };
 
-  // Generate caption (placeholder for now)
+  // Generate caption using OpenAI API
   const handleGenerateCaption = async () => {
     if (!imageUrl && !imageFile) {
       setError('Please provide an image URL or upload an image file');
@@ -83,7 +82,7 @@ export function ImageCaptionGenerator() {
     }
 
     // Check rate limit before proceeding
-    if (!ClientRateLimiter.checkLimit()) {
+    if (ClientRateLimiter.getRemainingRequests() <= 0) {
       setError('Rate limit exceeded. Please try again later.');
       setRemainingRequests(ClientRateLimiter.getRemainingRequests());
       return;
@@ -92,22 +91,64 @@ export function ImageCaptionGenerator() {
     setIsLoading(true);
     setError('');
 
-          try {
-        // Create tone string for API
-        const toneSet = selectedTone.length > 0 ? selectedTone.join(', ') : 'default';
+    try {
+      // Create tone string for API
+      const toneSet = selectedTone.length > 0 ? selectedTone.join(', ') : 'default';
 
-        console.log(imageFile);
+      // Create the prompt based on user settings
+      const prompt = `Describe this image in ${maxWords} words or less. Use a ${toneSet} tone.`;
 
-        // TODO: Implement actual API call here
-        // For now, just simulate the API call
-        await new Promise(resolve => setTimeout(resolve, 2000));
+      // Determine the image source
+      let imageSource: string;
+      if (imageUrl) {
+        imageSource = imageUrl;
+      } else if (imageFile) {
+        // Convert file to data URL for API
+        const reader = new FileReader();
+        imageSource = await new Promise<string>((resolve, reject) => {
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(imageFile);
+        });
+      } else {
+        throw new Error('No image source available');
+      }
 
-        // Placeholder response
-        const toneText = selectedTone.length > 0 ? selectedTone.join(' and ') : 'default';
-        setCaption(`This is a ${toneText.toLowerCase()} caption with approximately ${maxWords} words for your image. The actual API integration will be implemented later.`);
+      // Make API call to our backend endpoint
+      const response = await fetch('/api/openai/responses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          input: [
+            {
+              role: 'user',
+              content: [
+                { type: 'input_text', text: prompt },
+                {
+                  type: 'input_image',
+                  image_url: imageSource,
+                },
+              ],
+            },
+          ],
+        }),
+      });
 
-      // Update remaining requests after successful generation
-    //   setRemainingRequests(ClientRateLimiter.getRemainingRequests());
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+
+      // Set the generated caption
+      setCaption(result.response);
+
+      // Increment request count and update remaining requests after successful generation
+      ClientRateLimiter.incrementRequest();
+      setRemainingRequests(ClientRateLimiter.getRemainingRequests());
     } catch (err) {
       console.error('API error:', err);
       setError(err instanceof Error ? err.message : 'API failed');
@@ -140,65 +181,69 @@ export function ImageCaptionGenerator() {
         Image{' '}
         <Text inherit variant="gradient" component="span" gradient={{ from: 'pink', to: 'yellow' }}>
           Caption
-        </Text>{' '}Generator
+        </Text>{' '}
+        Generator
       </Title>
 
       <Box style={{ maxWidth: 800, margin: '20px auto', padding: '20px' }}>
+        {/* Settings Section */}
+        <Paper p="md" withBorder>
+          <Title order={3} mb="md">
+            Caption Settings
+          </Title>
 
-          {/* Settings Section */}
-          <Paper p="md" withBorder>
-            <Title order={3} mb="md">Caption Settings</Title>
+          <Stack gap="lg">
+            {/* Word Count Slider */}
+            <Box>
+              <Text size="sm" fw={500} mb="xs">
+                Maximum Words: {maxWords}
+              </Text>
+              <Slider
+                value={maxWords}
+                onChange={setMaxWords}
+                min={1}
+                max={50}
+                step={1}
+                marks={[
+                  { value: 1, label: '1' },
+                  { value: 25, label: '25' },
+                  { value: 50, label: '50' },
+                ]}
+                size="md"
+              />
+            </Box>
 
-            <Stack gap="lg">
-              {/* Word Count Slider */}
-              <Box>
-                <Text size="sm" fw={500} mb="xs">
-                  Maximum Words: {maxWords}
-                </Text>
-                <Slider
-                  value={maxWords}
-                  onChange={setMaxWords}
-                  min={1}
-                  max={50}
-                  step={1}
-                  marks={[
-                    { value: 1, label: '1' },
-                    { value: 25, label: '25' },
-                    { value: 50, label: '50' },
-                  ]}
-                  size="md"
-                />
-              </Box>
-
-              {/* Tone Selection */}
-              <Box>
-                <Text size="sm" fw={500} mb="xs">
-                  Caption Tone
-                </Text>
-                <Chip.Group multiple value={selectedTone} onChange={handleToneChange}>
-                  <Group gap="xs">
-                    <Chip value="Professional" variant="light">
-                      Professional
-                    </Chip>
-                    <Chip value="Fun" variant="light">
-                      Fun
-                    </Chip>
-                    <Chip value="Poetic" variant="light">
-                      Poetic
-                    </Chip>
-                    <Chip value="Casual" variant="light">
-                      Casual
-                    </Chip>
-                  </Group>
-                </Chip.Group>
-              </Box>
-            </Stack>
-          </Paper>
+            {/* Tone Selection */}
+            <Box>
+              <Text size="sm" fw={500} mb="xs">
+                Caption Tone
+              </Text>
+              <Chip.Group multiple value={selectedTone} onChange={handleToneChange}>
+                <Group gap="xs">
+                  <Chip value="Professional" variant="light">
+                    Professional
+                  </Chip>
+                  <Chip value="Fun" variant="light">
+                    Fun
+                  </Chip>
+                  <Chip value="Poetic" variant="light">
+                    Poetic
+                  </Chip>
+                  <Chip value="Casual" variant="light">
+                    Casual
+                  </Chip>
+                </Group>
+              </Chip.Group>
+            </Box>
+          </Stack>
+        </Paper>
 
         <Stack gap="lg">
           {/* Image Input Section */}
           <Paper p="md" withBorder>
-            <Title order={3} mb="md">Image Input</Title>
+            <Title order={3} mb="md">
+              Image Input
+            </Title>
 
             <Stack gap="md">
               {/* URL Input */}
@@ -239,7 +284,9 @@ export function ImageCaptionGenerator() {
 
           {/* Image Preview Section */}
           <Paper p="md" withBorder>
-            <Title order={3} mb="md">Image Preview</Title>
+            <Title order={3} mb="md">
+              Image Preview
+            </Title>
 
             <Center>
               {imagePreview ? (
@@ -276,7 +323,6 @@ export function ImageCaptionGenerator() {
             </Center>
           </Paper>
 
-
           {/* Action Buttons */}
           <Group justify="center" gap="md">
             <Button
@@ -289,12 +335,7 @@ export function ImageCaptionGenerator() {
             >
               Generate Caption
             </Button>
-            <Button
-              variant="light"
-              color="gray"
-              onClick={handleReset}
-              size="lg"
-            >
+            <Button variant="light" color="gray" onClick={handleReset} size="lg">
               Reset All
             </Button>
           </Group>
@@ -311,7 +352,9 @@ export function ImageCaptionGenerator() {
           {/* Caption Display */}
           {caption && (
             <Paper p="md" withBorder>
-              <Title order={3} mb="md">Generated Caption</Title>
+              <Title order={3} mb="md">
+                Generated Caption
+              </Title>
               <Text size="lg" style={{ lineHeight: 1.6 }}>
                 {caption}
               </Text>
