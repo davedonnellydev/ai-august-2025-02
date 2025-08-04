@@ -40,11 +40,19 @@ export async function POST(request: NextRequest) {
     });
 
     // Enhanced content moderation
-    const moderatedText = await client.moderations.create({
-      input,
+    const moderatedImage = await client.moderations.create({
+        model: "omni-moderation-latest",
+      input: [
+        {
+            type: "image_url",
+            image_url: {
+                url: ""
+            }
+        }
+      ]
     });
 
-    const { flagged, categories } = moderatedText.results[0];
+    const { flagged, categories } = moderatedImage.results[0];
 
     if (flagged) {
       const keys: string[] = Object.keys(categories);
