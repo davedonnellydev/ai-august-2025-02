@@ -19,12 +19,12 @@ export async function POST(request: NextRequest) {
 
     const { input } = await request.json();
 
-    // Validate input structure
+    // Validate input structure for image caption generation
     if (!input || !Array.isArray(input) || input.length === 0) {
       return NextResponse.json({ error: 'Invalid input format' }, { status: 400 });
     }
 
-    // Check if this is an image-based request
+    // Validate that this is an image-based request
     const hasImage = input.some(
       (item: any) =>
         item.content &&
@@ -32,27 +32,20 @@ export async function POST(request: NextRequest) {
         item.content.some((content: any) => content.type === 'input_image')
     );
 
-    if (hasImage) {
-      // For image requests, we'll use the responses API directly
-      // Extract text content for validation
-      const textContent = input
-        .flatMap((item: any) => item.content || [])
-        .filter((content: any) => content.type === 'input_text')
-        .map((content: any) => content.text)
-        .join(' ');
+    if (!hasImage) {
+      return NextResponse.json({ error: 'Image input is required' }, { status: 400 });
+    }
 
-      const textValidation = InputValidator.validateText(textContent, 2000);
-      if (!textValidation.isValid) {
-        return NextResponse.json({ error: textValidation.error }, { status: 400 });
-      }
-    } else {
-      // For text-only requests, validate the input
-      // Convert array input to string for validation
-      const textInput = Array.isArray(input) ? input.join(' ') : input;
-      const textValidation = InputValidator.validateText(textInput, 2000);
-      if (!textValidation.isValid) {
-        return NextResponse.json({ error: textValidation.error }, { status: 400 });
-      }
+    // Extract and validate text content (the prompt)
+    const textContent = input
+      .flatMap((item: any) => item.content || [])
+      .filter((content: any) => content.type === 'input_text')
+      .map((content: any) => content.text)
+      .join(' ');
+
+    const textValidation = InputValidator.validateText(textContent, 2000);
+    if (!textValidation.isValid) {
+      return NextResponse.json({ error: textValidation.error }, { status: 400 });
     }
 
     // Environment validation
@@ -60,7 +53,7 @@ export async function POST(request: NextRequest) {
     if (!apiKey) {
       console.error('OpenAI API key not configured');
       return NextResponse.json(
-        { error: 'Translation service temporarily unavailable' },
+        { error: 'Image caption service temporarily unavailable' },
         { status: 500 }
       );
     }
@@ -69,68 +62,51 @@ export async function POST(request: NextRequest) {
       apiKey,
     });
 
-    // Enhanced content moderation for image requests
-    if (hasImage) {
-      // Extract image URLs for moderation
-      const imageUrls = input
-        .flatMap((item: any) => item.content || [])
-        .filter((content: any) => content.type === 'input_image')
-        .map((content: any) => content.image_url)
-        .filter(Boolean);
+    // Content moderation for images
+    const imageUrls = input
+      .flatMap((item: any) => item.content || [])
+      .filter((content: any) => content.type === 'input_image')
+      .map((content: any) => content.image_url)
+      .filter(Boolean);
 
-      if (imageUrls.length > 0) {
-        const moderatedImage = await client.moderations.create({
-          model: 'omni-moderation-latest',
-          input: imageUrls,
-        });
+    if (imageUrls.length > 0) {
+      const moderatedImage = await client.moderations.create({
+        model: 'omni-moderation-latest',
+        input: imageUrls,
+      });
 
-        const { flagged, categories } = moderatedImage.results[0];
+      const { flagged, categories } = moderatedImage.results[0];
 
-        if (flagged) {
-          const keys: string[] = Object.keys(categories);
-          const flaggedCategories = keys.filter(
-            (key: string) => categories[key as keyof typeof categories]
-          );
-          return NextResponse.json(
-            {
-              error: `Content flagged as inappropriate: ${flaggedCategories.join(', ')}`,
-            },
-            { status: 400 }
-          );
-        }
+      if (flagged) {
+        const keys: string[] = Object.keys(categories);
+        const flaggedCategories = keys.filter(
+          (key: string) => categories[key as keyof typeof categories]
+        );
+        return NextResponse.json(
+          {
+            error: `Content flagged as inappropriate: ${flaggedCategories.join(', ')}`,
+          },
+          { status: 400 }
+        );
       }
     }
 
-    let response;
+    // Generate image caption using OpenAI responses API
+    const instructions: string =
+      'You are a helpful assistant who generates image captions. Keep your responses concise and engaging.';
 
-    if (hasImage) {
-      // For image requests, use the responses API with the structured input
-      const instructions: string =
-        'You are a helpful assistant who generates image captions. Keep your responses concise and engaging.';
-
-      response = await client.responses.create({
-        model: MODEL,
-        instructions,
-        input,
-      });
-    } else {
-      // For text-only requests, use the existing format
-      const instructions: string =
-        'You are a helpful assistant who knows general knowledge about the world. Keep your responses to one or two sentences, maximum.';
-
-      response = await client.responses.create({
-        model: MODEL,
-        instructions,
-        input,
-      });
-    }
+    const response = await client.responses.create({
+      model: MODEL,
+      instructions,
+      input,
+    });
 
     if (response.status !== 'completed') {
       throw new Error(`Responses API error: ${response.status}`);
     }
 
     return NextResponse.json({
-      response: response.output_text || 'Response recieved',
+      response: response.output_text || 'Caption generated successfully',
       originalInput: input,
       remainingRequests: ServerRateLimiter.getRemaining(ip),
     });
