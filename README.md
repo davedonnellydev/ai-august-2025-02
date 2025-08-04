@@ -9,14 +9,27 @@
 **▶️ Live Demo**: [https://dave-donnelly-ai-august-02.netlify.app/](https://dave-donnelly-ai-august-02.netlify.app/)   
 
 ## 🗒️ Summary
-**Lessons learned**  
-*A little summary of learnings*  
 
-**Blockers**  
-*Note any blockers here*  
+Today was a pretty easy kind of day. After learning my lesson from Friday, I spent more time planning out the UX of the app and understanding the components a bit better. You can take a look at my [user flow diagram here](./ai-august-2025-02.drawio.png). The kind of app I was making was fairly straightforward, the only real unknowns were how the OpenAI API processed image files, and how the browser handled those files when uploaded without any database to store them. Both were fairly easily answered with Cursor AI chats, and the app came together pretty quickly. Consequently I had a bit more time to focus on styling the app a little more than I did on Friday. Styling was where things started to become unstuck.
+
+**Lessons learned**  
+The main lesson I learned was that Cursor isn't the greatest at generating CSS styling that is simple and understandable. I got Cursor to generate the CSS using the Mantine UI components, and for the most part it did a pretty good job but there was one button (the 'Generate caption' button) that, no matter what I changed, or how many times I got Cursor to look at it, the text of the button was not displayed (even though Cursor insisted it was!). In the end, I noticed a `data-loading={isLoading}` attribute on the Button. When I removed it, the text appeared. I took to ChatGPT (o4-mini-high model) to explain:
+
+> **Why manually adding data-loading hides your text**  
+>
+>In HTML (and React DOM), boolean attributes are “true” simply by being present—no matter what value you give them. That means:
+>
+>```jsx
+>// ❌ this still adds the attribute, so it’s treated as “loading”
+><Button data-loading={false}>Generate Caption</Button>
+>// → <button data-loading="false">…</button>
+>```
+>Even though you wrote false, the attribute is still in the DOM, so Mantine’s [data-loading] CSS rules fire and hide your button text.  
+
+Mystery solved. An issue created by AI but also solved by it. These small errors can creep in and take up the valuable time you saved by using AI to generate the code in the first place. Is it worth it? For me, in this challenge... I think so. I still wouldn't have been able to pull off the slick styling it threw together in that timeframe as a junior without AI but it certainly gave me a good education by throwing a spanner in the works! 
 
 **Final thoughts**  
-*Any final thoughts here*  
+Be cautious using Cursor for your styling. It can do a lot in a short amount of time, but diagnosing issues within a web of overriding styles may become more trouble than it's worth!   
 
 
 This project has been built as part of my AI August App-A-Day Challenge. You can read more information on the full project here: [https://github.com/davedonnellydev/ai-august-2025-challenge](https://github.com/davedonnellydev/ai-august-2025-challenge).  
