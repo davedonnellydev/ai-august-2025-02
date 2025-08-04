@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
 
     // Generate image caption using OpenAI responses API
     const instructions: string =
-      'You are a helpful assistant who generates image captions. Keep your responses concise and engaging.';
+      'You are an expert writer who generates image captions. Keep your responses concise and engaging. You will be given a maximum word count. When generating responses, generate captions that are closer to the word count than not.';
 
     const response = await client.responses.create({
       model: MODEL,

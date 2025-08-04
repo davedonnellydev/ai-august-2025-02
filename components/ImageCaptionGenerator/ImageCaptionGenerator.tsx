@@ -93,7 +93,7 @@ export function ImageCaptionGenerator() {
 
     try {
       // Create tone string for API
-      const toneSet = selectedTone.length > 0 ? selectedTone.join(', ') : 'default';
+      const toneSet = selectedTone.length > 0 ? selectedTone.join(', ') : 'neutral';
 
       // Create the prompt based on user settings
       const prompt = `Describe this image in ${maxWords} words or less. Use a ${toneSet} tone.`;
@@ -177,25 +177,19 @@ export function ImageCaptionGenerator() {
 
   return (
     <>
-      <Title className={classes.title} ta="center" mt={100}>
-        Image{' '}
-        <Text inherit variant="gradient" component="span" gradient={{ from: 'pink', to: 'yellow' }}>
-          Caption
-        </Text>{' '}
-        Generator
-      </Title>
+      <Title className={classes.title}>Image Caption Generator</Title>
 
-      <Box style={{ maxWidth: 800, margin: '20px auto', padding: '20px' }}>
+      <Box className={classes.container}>
         {/* Settings Section */}
-        <Paper p="md" withBorder>
-          <Title order={3} mb="md">
+        <Paper className={classes.settingsCard} p="lg">
+          <Title order={3} mb="md" c="white">
             Caption Settings
           </Title>
 
           <Stack gap="lg">
             {/* Word Count Slider */}
             <Box>
-              <Text size="sm" fw={500} mb="xs">
+              <Text size="sm" fw={600} mb="xs" c="white">
                 Maximum Words: {maxWords}
               </Text>
               <Slider
@@ -210,27 +204,52 @@ export function ImageCaptionGenerator() {
                   { value: 50, label: '50' },
                 ]}
                 size="md"
+                color="white"
+                styles={{
+                  mark: {
+                    backgroundColor: 'white',
+                  },
+                  markLabel: {
+                    color: 'white',
+                    fontWeight: 600,
+                  },
+                }}
               />
             </Box>
 
             {/* Tone Selection */}
             <Box>
-              <Text size="sm" fw={500} mb="xs">
+              <Text size="sm" fw={600} mb="xs" c="white">
                 Caption Tone
               </Text>
               <Chip.Group multiple value={selectedTone} onChange={handleToneChange}>
-                <Group gap="xs">
-                  <Chip value="Professional" variant="light">
+                <Group gap="xs" className={classes.toneChips}>
+                  <Chip value="Professional" variant="filled" color="blue" c="white">
                     Professional
                   </Chip>
-                  <Chip value="Fun" variant="light">
+                  <Chip value="Fun" variant="filled" color="blue" c="white">
                     Fun
                   </Chip>
-                  <Chip value="Poetic" variant="light">
+                  <Chip value="Poetic" variant="filled" color="blue" c="white">
                     Poetic
                   </Chip>
-                  <Chip value="Casual" variant="light">
+                  <Chip value="Casual" variant="filled" color="blue" c="white">
                     Casual
+                  </Chip>
+                  <Chip value="Cheeky" variant="filled" color="blue" c="white">
+                    Cheeky
+                  </Chip>
+                  <Chip value="Wholesome" variant="filled" color="blue" c="white">
+                    Wholesome
+                  </Chip>
+                  <Chip value="Over-the-top" variant="filled" color="blue" c="white">
+                    Over the top
+                  </Chip>
+                  <Chip value="Meme-y" variant="filled" color="blue" c="white">
+                    Meme-y
+                  </Chip>
+                  <Chip value="Concise" variant="filled" color="blue" c="white">
+                    Concise
                   </Chip>
                 </Group>
               </Chip.Group>
@@ -240,7 +259,7 @@ export function ImageCaptionGenerator() {
 
         <Stack gap="lg">
           {/* Image Input Section */}
-          <Paper p="md" withBorder>
+          <Paper className={classes.inputCard} p="lg">
             <Title order={3} mb="md">
               Image Input
             </Title>
@@ -253,6 +272,7 @@ export function ImageCaptionGenerator() {
                 value={imageUrl}
                 onChange={(event) => handleUrlChange(event.currentTarget.value)}
                 disabled={!!imageFile}
+                size="md"
               />
 
               {/* File Upload */}
@@ -263,8 +283,9 @@ export function ImageCaptionGenerator() {
                 value={imageFile}
                 onChange={handleFileChange}
                 disabled={!!imageUrl}
-                leftSection={<IconUpload size={16} />}
+                leftSection={<IconUpload size={18} />}
                 ref={fileInputRef}
+                size="md"
               />
 
               {/* Clear Image Button */}
@@ -275,6 +296,7 @@ export function ImageCaptionGenerator() {
                   leftSection={<IconX size={16} />}
                   onClick={handleClearImage}
                   size="sm"
+                  radius="md"
                 >
                   Clear Image
                 </Button>
@@ -283,7 +305,7 @@ export function ImageCaptionGenerator() {
           </Paper>
 
           {/* Image Preview Section */}
-          <Paper p="md" withBorder>
+          <Paper className={classes.previewCard} p="lg">
             <Title order={3} mb="md">
               Image Preview
             </Title>
@@ -293,28 +315,17 @@ export function ImageCaptionGenerator() {
                 <Image
                   src={imagePreview}
                   alt="Preview"
-                  style={{ maxWidth: '100%', maxHeight: 400 }}
+                  className={classes.imagePreview}
                   fallbackSrc="data:image/svg+xml,%3csvg width='400' height='300' xmlns='http://www.w3.org/2000/svg'%3e%3ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='14' fill='%23ccc'%3eImage preview%3c/text%3e%3c/svg%3e"
                 />
               ) : (
-                <Box
-                  style={{
-                    width: '100%',
-                    height: 300,
-                    border: '2px dashed #ccc',
-                    borderRadius: 8,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: '#f8f9fa',
-                  }}
-                >
+                <Box className={classes.uploadArea}>
                   <Stack align="center" gap="xs">
-                    <IconPhoto size={48} color="#ccc" />
-                    <Text c="dimmed" size="sm">
+                    <IconPhoto size={64} color="#667eea" />
+                    <Text c="dimmed" size="lg" fw={600}>
                       No image selected
                     </Text>
-                    <Text c="dimmed" size="xs" ta="center">
+                    <Text c="dimmed" size="sm" ta="center">
                       Enter an image URL or upload a file above
                     </Text>
                   </Stack>
@@ -324,10 +335,9 @@ export function ImageCaptionGenerator() {
           </Paper>
 
           {/* Action Buttons */}
-          <Group justify="center" gap="md">
+          <Group className={classes.actionButtons}>
             <Button
-              variant="filled"
-              color="cyan"
+              className={classes.generateButton}
               onClick={handleGenerateCaption}
               loading={isLoading}
               disabled={!imageUrl && !imageFile}
@@ -335,15 +345,15 @@ export function ImageCaptionGenerator() {
             >
               Generate Caption
             </Button>
-            <Button variant="light" color="gray" onClick={handleReset} size="lg">
+            <Button className={classes.resetButton} onClick={handleReset} size="lg">
               Reset All
             </Button>
           </Group>
 
           {/* Error Display */}
           {error && (
-            <Paper p="md" withBorder style={{ borderColor: 'red' }}>
-              <Text c="red" ta="center" size="sm">
+            <Paper className={classes.errorCard} p="md">
+              <Text c="red" ta="center" size="sm" fw={600}>
                 Error: {error}
               </Text>
             </Paper>
@@ -351,11 +361,11 @@ export function ImageCaptionGenerator() {
 
           {/* Caption Display */}
           {caption && (
-            <Paper p="md" withBorder>
+            <Paper className={classes.captionCard} p="lg">
               <Title order={3} mb="md">
                 Generated Caption
               </Title>
-              <Text size="lg" style={{ lineHeight: 1.6 }}>
+              <Text size="lg" style={{ lineHeight: 1.6 }} fw={500}>
                 {caption}
               </Text>
             </Paper>
@@ -364,7 +374,7 @@ export function ImageCaptionGenerator() {
           <Divider />
 
           {/* Remaining Requests */}
-          <Text c="dimmed" ta="center" size="sm">
+          <Text className={classes.remainingRequests}>
             You have {remainingRequests} image caption generations remaining.
           </Text>
         </Stack>

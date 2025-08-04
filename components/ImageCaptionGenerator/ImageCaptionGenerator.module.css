@@ -1,10 +1,314 @@
 .title {
-  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-  font-size: rem(100px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: rem(80px);
   font-weight: 900;
   letter-spacing: rem(-2px);
+  text-align: center;
+  margin-bottom: rem(40px);
+  animation: fade-in-up 0.8s ease-out;
 
   @media (max-width: var(--mantine-breakpoint-md)) {
     font-size: rem(50px);
+    margin-bottom: rem(30px);
+  }
+
+  @media (max-width: var(--mantine-breakpoint-sm)) {
+    font-size: rem(40px);
+    margin-bottom: rem(20px);
+  }
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: rem(20px);
+  animation: fade-in 0.6s ease-out;
+
+  @media (max-width: var(--mantine-breakpoint-md)) {
+    padding: rem(15px);
+  }
+
+  @media (max-width: var(--mantine-breakpoint-sm)) {
+    padding: rem(10px);
+  }
+}
+
+.settingsCard {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border: none;
+  color: white;
+  margin-bottom: rem(20px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  /* &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgb(0 0 0 / 15%);
+  } */
+}
+
+.inputCard {
+  background: white;
+  border: 2px solid #f1f3f4;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+
+  /* &:hover {
+    border-color: #667eea;
+    transform: translateY(-1px);
+  } */
+}
+
+.previewCard {
+  background: white;
+  border: 2px solid #f1f3f4;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: #667eea;
+  }
+}
+
+.imagePreview {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: rem(12px);
+  transition: transform 0.2s ease;
+
+  /* &:hover {
+    transform: scale(1.02);
+  } */
+}
+
+.uploadArea {
+  width: 100%;
+  height: 300px;
+  border: 3px dashed #667eea;
+  border-radius: rem(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #764ba2;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e0e8ff 100%);
+    /* transform: translateY(-2px); */
+  }
+
+  @media (max-width: var(--mantine-breakpoint-sm)) {
+    height: 200px;
+  }
+}
+
+.actionButtons {
+  display: flex;
+  gap: rem(16px);
+  justify-content: center;
+  margin: rem(24px) 0;
+
+  @media (max-width: var(--mantine-breakpoint-sm)) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.generateButton {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: rem(12px) rem(32px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgb(102 126 234 / 40%);
+  }
+
+ &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: #e9ecef !important;
+    color: #6c757d !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+    transform: none;
+    box-shadow: none;
+  }
+
+  &:disabled::before {
+    display: none;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 20%), transparent);
+    transition: left 0.5s;
+  }
+
+  &:hover:not(:disabled)::before {
+    left: 100%;
+  }
+}
+
+.resetButton {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  color: #6c757d;
+  font-weight: 600;
+  padding: rem(12px) rem(32px);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e9ecef;
+    border-color: #dee2e6;
+    transform: translateY(-1px);
+  }
+}
+
+.captionCard {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  border: none;
+  color: #2c3e50;
+  animation: slide-in-up 0.5s ease-out;
+}
+
+.errorCard {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  border: none;
+  color: #721c24;
+  animation: shake 0.5s ease-in-out;
+}
+
+.remainingRequests {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  text-align: center;
+  margin-top: rem(16px);
+}
+
+.toneChips {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: rem(8px);
+
+  @media (max-width: var(--mantine-breakpoint-sm)) {
+    justify-content: center;
+  }
+
+  /* Custom styling for chips to ensure proper contrast */
+  :global(.mantine-Chip-root) {
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  :global(.mantine-Chip-root:hover) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgb(0, 0, 0, 0.15);
+    border-radius: var(--chip-radius);
+  }
+
+  :global(.mantine-Chip-root[data-checked="true"]) {
+    border-color: rgb(255, 255, 255, 0.8);
+    box-shadow: 0 2px 8px rgb(0, 0, 0, 0.2);
+    border-radius: var(--chip-radius);
+  }
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Loading animation for generate button */
+.generateButton[data-loading="true"] {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
