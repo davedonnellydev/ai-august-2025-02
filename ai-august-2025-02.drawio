@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:141.0) Gecko/20100101 Firefox/141.0" version="28.0.7">
   <diagram name="Page-1" id="fQAS1CwPzlaBgqHVDmfY">
-    <mxGraphModel dx="1376" dy="774" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1376" dy="799" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -63,41 +63,44 @@
         <mxCell id="_PsJVDYqyXAVC82R-pF2-18" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="50" y="680" width="760" height="580" as="geometry" />
         </mxCell>
-        <mxCell id="_PsJVDYqyXAVC82R-pF2-19" value="App Title" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=24;" parent="1" vertex="1">
-          <mxGeometry x="365" y="700" width="130" height="30" as="geometry" />
+        <mxCell id="_PsJVDYqyXAVC82R-pF2-19" value="Image Caption Generator" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=24;" parent="1" vertex="1">
+          <mxGeometry x="300" y="700" width="260" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_PsJVDYqyXAVC82R-pF2-20" value="http://www.test.com/image.png" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
-          <mxGeometry x="309" y="770" width="262" height="30" as="geometry" />
+          <mxGeometry x="300" y="870" width="202" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_PsJVDYqyXAVC82R-pF2-21" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/Ionicons_Fill_Vol_2-2187/toggle-592.svg" parent="1" vertex="1">
-          <mxGeometry x="340" y="740" width="20" height="20" as="geometry" />
+          <mxGeometry x="305" y="845" width="20" height="20" as="geometry" />
         </mxCell>
         <mxCell id="_PsJVDYqyXAVC82R-pF2-23" value="Image URL or File Upload" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="360" y="735" width="160" height="30" as="geometry" />
+          <mxGeometry x="325" y="840" width="160" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_PsJVDYqyXAVC82R-pF2-24" value="Image area w placeholder" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="305" y="810" width="270" height="160" as="geometry" />
+          <mxGeometry x="280" y="910" width="330" height="160" as="geometry" />
         </mxCell>
         <mxCell id="_PsJVDYqyXAVC82R-pF2-25" value="Brief (8 words or less)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="305" y="990" width="125" height="30" as="geometry" />
+          <mxGeometry x="304" y="750" width="125" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_PsJVDYqyXAVC82R-pF2-26" value="Detailed (up to 50 words)" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="450" y="990" width="125" height="30" as="geometry" />
+          <mxGeometry x="449" y="750" width="125" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_PsJVDYqyXAVC82R-pF2-27" value="Fun" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="305" y="1030" width="125" height="30" as="geometry" />
+          <mxGeometry x="304" y="790" width="125" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_PsJVDYqyXAVC82R-pF2-28" value="Professional" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="450" y="1030" width="125" height="30" as="geometry" />
+          <mxGeometry x="449" y="790" width="125" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="_PsJVDYqyXAVC82R-pF2-31" value="&lt;div align=&quot;left&quot;&gt;Text output&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
-          <mxGeometry x="303" y="1080" width="272" height="40" as="geometry" />
+        <mxCell id="_PsJVDYqyXAVC82R-pF2-31" value="&lt;div align=&quot;left&quot;&gt;Text output&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="280" y="1080" width="272" height="70" as="geometry" />
         </mxCell>
         <mxCell id="_PsJVDYqyXAVC82R-pF2-32" value="" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/Files-2387/Copy-1031.svg" parent="1" vertex="1">
-          <mxGeometry x="550" y="1090" width="20" height="20" as="geometry" />
+          <mxGeometry x="520" y="1100" width="20" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="_PsJVDYqyXAVC82R-pF2-33" value="New image" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="404" y="1140" width="70" height="25" as="geometry" />
+        <mxCell id="_PsJVDYqyXAVC82R-pF2-33" value="Reset" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="574" y="1100" width="70" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="tWbKiSJsA4TAK6pQsdtj-2" value="Generate" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="870" width="80" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
